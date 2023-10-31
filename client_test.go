@@ -2,6 +2,7 @@ package YaDiskAPIClient
 
 import (
 	"context"
+	"log"
 	"os"
 	"testing"
 	"time"
@@ -9,13 +10,29 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func getAppPath() (path string) {
+	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
+	resp, statusCode, err := client.GetFiles(context.Background())
+
+	if err != nil {
+		log.Fatalf("Unexpected error: statusCode %d, ERR %e", statusCode, err)
+	}
+
+	path = resp.Embedded.Path
+
+	return
+}
+
 func init() {
 	AUTH_TOKEN = os.Getenv("YA_DISK_AUTH_TOKEN")
+	CLIENT_TIMEOUT = 10 * time.Second
+	APP_DISK_PATH = getAppPath()
 }
 
 var (
 	AUTH_TOKEN     string
-	CLIENT_TIMEOUT = 10 * time.Second
+	APP_DISK_PATH  string
+	CLIENT_TIMEOUT time.Duration
 )
 
 func Test_NewClient_AutMissingErr(t *testing.T) {
@@ -62,7 +79,7 @@ func Test_GetFiles_OK(t *testing.T) {
 
 func Test_MkDir_OK(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	statusCode, err := client.MakeFolder("disk:/Приложения/Финансовый бот/t"+time.Now().Format("060102150405"), context.Background())
+	statusCode, err := client.MakeFolder(APP_DISK_PATH+"/t"+time.Now().Format("060102150405"), context.Background())
 
 	assert.NoError(t, err)
 	assert.Equal(t, 201, statusCode)
@@ -70,7 +87,7 @@ func Test_MkDir_OK(t *testing.T) {
 
 func Test_MkDir_PathAlreadyExists(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	statusCode, err := client.MakeFolder("disk:/Приложения/Финансовый бот/bkp", context.Background())
+	statusCode, err := client.MakeFolder(APP_DISK_PATH+"/bkp", context.Background())
 
 	assert.Error(t, err)
 	assert.Equal(t, 409, statusCode)
@@ -87,7 +104,7 @@ func Test_GetDownloadLink_WrongPath(t *testing.T) {
 
 func Test_GetDownloadLink_OK(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	href, statusCode, err := client.GetDownloadLink("disk:/Приложения/Финансовый бот/receipts.xlsx", context.Background())
+	href, statusCode, err := client.GetDownloadLink(APP_DISK_PATH+"/test123.docx", context.Background())
 
 	assert.NoError(t, err)
 	assert.Equal(t, 200, statusCode)
@@ -96,7 +113,7 @@ func Test_GetDownloadLink_OK(t *testing.T) {
 
 func Test_Download_OK(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	statusCode, err := client.DownloadFile("disk:/Приложения/Финансовый бот/receipts.xlsx", "../receipts.xlsx", context.Background())
+	statusCode, err := client.DownloadFile(APP_DISK_PATH+"/test123.docx", "../testFile", context.Background())
 
 	assert.NoError(t, err)
 	assert.Equal(t, 200, statusCode)
@@ -104,7 +121,7 @@ func Test_Download_OK(t *testing.T) {
 
 func Test_GetUploadLink_AlreadyExistsErr(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	link, statusCode, err := client.GetUploadLink("disk:/Приложения/Финансовый бот/receipts.xlsx", false, context.Background())
+	link, statusCode, err := client.GetUploadLink(APP_DISK_PATH+"/test123.docx", false, context.Background())
 
 	assert.Error(t, err)
 	assert.Equal(t, 409, statusCode)
@@ -113,7 +130,7 @@ func Test_GetUploadLink_AlreadyExistsErr(t *testing.T) {
 
 func Test_GetUploadLink_OK(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	link, statusCode, err := client.GetUploadLink("disk:/Приложения/Финансовый бот/receipts.xlsx", true, context.Background())
+	link, statusCode, err := client.GetUploadLink(APP_DISK_PATH+"/test123.docx", true, context.Background())
 
 	assert.NoError(t, err)
 	assert.Equal(t, 200, statusCode)
@@ -122,7 +139,7 @@ func Test_GetUploadLink_OK(t *testing.T) {
 
 func Test_UploadFile_OK(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
-	statusCode, err := client.UploadFile("disk:/Приложения/Финансовый бот/receipts.xlsx", "../receipts.xlsx", true, context.Background())
+	statusCode, err := client.UploadFile(APP_DISK_PATH+"/test123.docx", "../testFile", true, context.Background())
 
 	assert.NoError(t, err)
 

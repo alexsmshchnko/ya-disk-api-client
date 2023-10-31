@@ -115,29 +115,29 @@ type TrashResourceList struct {
 }
 
 type Resource struct {
-	AntivirusStatus  string     `json:"antivirus_status"`   //Статус проверки антивирусом
-	ResourceID       string     `json:"resource_id"`        //Идентификатор ресурса
-	Share            ShareInfo  `json:"share "`             //
-	File             string     `json:"file"`               //URL для скачивания файла
-	Size             int        `json:"size"`               //Размер файла
-	Photoslice_time  string     `json:"photoslice_time"`    //Дата создания фото или видео файла
-	Exif             Exif       `json:"exif,omitempty"`     //
-	CustomProperties string     `json:"custom_properties "` //Пользовательские атрибуты ресурса
-	MediaType        string     `json:"media_type"`         //Определённый Диском тип файла
-	Preview          string     `json:"preview"`            //URL превью файла
-	Type             string     `json:"type"`               //Тип
-	MimeType         string     `json:"mime_type"`          //MIME-тип файла
-	Revision         int64      `json:"revision"`           //Ревизия Диска в которой этот ресурс был изменён последний раз
-	PublicUrl        string     `json:"public_Url"`         //Публичный URL
-	Path             string     `json:"path"`               //Путь к ресурсу
-	Md5              string     `json:"md5"`                //MD5-хэш
-	PublicKey        string     `json:"public_Key"`         //Ключ опубликованного ресурса
-	Sha256           string     `json:"sha256"`             //SHA256-хэш
-	Name             string     `json:"name"`               //Имя
-	Created          string     `json:"created"`            //Дата создания
-	Sizes            string     `json:"sizes"`              //
-	Modified         string     `json:"modified"`           //Дата изменения
-	CommentIds       CommentIds `json:"comment_ids"`        //
+	AntivirusStatus  string    `json:"antivirus_status"`   //Статус проверки антивирусом
+	ResourceID       string    `json:"resource_id"`        //Идентификатор ресурса
+	Share            ShareInfo `json:"share "`             //
+	File             string    `json:"file"`               //URL для скачивания файла
+	Size             int       `json:"size"`               //Размер файла
+	Photoslice_time  string    `json:"photoslice_time"`    //Дата создания фото или видео файла
+	Exif             Exif      `json:"exif,omitempty"`     //
+	CustomProperties string    `json:"custom_properties "` //Пользовательские атрибуты ресурса
+	MediaType        string    `json:"media_type"`         //Определённый Диском тип файла
+	Preview          string    `json:"preview"`            //URL превью файла
+	Type             string    `json:"type"`               //Тип
+	MimeType         string    `json:"mime_type"`          //MIME-тип файла
+	Revision         int64     `json:"revision"`           //Ревизия Диска в которой этот ресурс был изменён последний раз
+	PublicUrl        string    `json:"public_Url"`         //Публичный URL
+	Path             string    `json:"path"`               //Путь к ресурсу
+	Md5              string    `json:"md5"`                //MD5-хэш
+	PublicKey        string    `json:"public_Key"`         //Ключ опубликованного ресурса
+	Sha256           string    `json:"sha256"`             //SHA256-хэш
+	Name             string    `json:"name"`               //Имя
+	Created          string    `json:"created"`            //Дата создания
+	//Sizes           []string     `json:"sizes"`              //
+	Modified   string     `json:"modified"`    //Дата изменения
+	CommentIds CommentIds `json:"comment_ids"` //
 }
 
 type ShareInfo struct {
