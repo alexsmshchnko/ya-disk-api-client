@@ -72,7 +72,7 @@ func Test_MkDir_PathAlreadyExists(t *testing.T) {
 	client, _ := NewClient(AUTH_TOKEN, CLIENT_TIMEOUT)
 	statusCode, err := client.MakeFolder("disk:/Приложения/Финансовый бот/bkp", context.Background())
 
-	assert.NoError(t, err)
+	assert.Error(t, err)
 	assert.Equal(t, 409, statusCode)
 }
 
