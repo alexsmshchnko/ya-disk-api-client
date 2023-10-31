@@ -1,4 +1,4 @@
-module ya-disk-api-client
+module github.com/alexsmshchnko/ya-disk-api-client
 
 go 1.21.3
 
