@@ -26,5 +26,5 @@ jobs:
 
     - name: Test
       env:
-        BOT_TOKEN: ${{ secrets.YA_DISK_AUTH_TOKEN }}
+        YA_DISK_AUTH_TOKEN: ${{ secrets.YA_DISK_AUTH_TOKEN }}
       run: go test -v ./...
